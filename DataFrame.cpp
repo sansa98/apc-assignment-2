@@ -182,7 +182,7 @@ DataFrame::hstack(DataFrame &otherDataFrame){
 DataFrame DataFrame::join(DataFrame &otherDataFrame, std::string onMyCol, std::string onColOfOther){
     bool a = false;
 
-    std::vector<ValuesArray> new1;
+    std::map<size_t,ValuesArray> new1;
     std::vector<ValuesArray> new2;
 
     int numberRows = 0;
@@ -193,7 +193,7 @@ DataFrame DataFrame::join(DataFrame &otherDataFrame, std::string onMyCol, std::s
     for (size_t i = 0; i<firstColumn.values.size(); ++i){
         for (size_t j = 0; j<secondColumn.values.size() ; ++j){
             if (firstColumn.values[i] == secondColumn.values[j]){   //elemento i-esimo nella colonna del PRIMO
-                new1.push_back(getValuesAtRow(i));
+                new1[numberRows] = getValuesAtRow(i);
                 new2.push_back(otherDataFrame.getValuesAtRow(j));
                 numberRows++;
                 a = true;
@@ -211,7 +211,7 @@ DataFrame DataFrame::join(DataFrame &otherDataFrame, std::string onMyCol, std::s
         return dataFrame1.hstack(dataFrame2);
     }
 
-
+// PERCHE NON USO ITERATORS
     DataFrame dataFrame1;
     for (size_t j = 0; j<new1.at(0).size(); j++){  //new1.at(0) = numberCols
         Column col;
